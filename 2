@@ -1,0 +1,23 @@
+import csv
+
+import random
+
+with (open ("scientist.txt", encoding="utf-8") as file):
+    reader = list(csv.DictReader(file, delimiter="#"))
+
+
+    def quicksort(nums):
+        if len(nums) <= 1:
+            return nums
+        else:
+            q = random.choice(nums)
+        l_nums = [n for n in nums if n['date'] < q['date']]
+        e_nums = [q] * nums.count(q)
+        b_nums = [n for n in nums if n['date'] > q['date']]
+        return quicksort(l_nums) + e_nums + quicksort(b_nums)
+    reader = quicksort(reader)
+
+with open("scientist.orgl.txt", "w", encoding="utf-8", newline="") as file:
+    writer = csv.DictWriter(file,fieldnames=["ScientistName", "preparation", "date", "components"])
+    writer.writeheader()
+    writer.writerows(reader)
