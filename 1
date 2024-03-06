@@ -1,0 +1,31 @@
+import csv
+
+
+with (open ("scientist.txt", encoding="utf-8") as file):
+    reader = list(csv.DictReader(file, delimiter="#"))
+    reader = sorted(reader, key = lambda x: x["date"])
+    scientist = []
+    data = []
+
+    preparation = []
+    creater = False
+    print("Разработчиками данного препарата были:")
+    for row in reader:
+        if row["preparation"] not in preparation:
+            preparation.append(row["preparation"])
+            scientist.append(row)
+            data.append(row["date"])
+        if row["preparation"] == "Аллопуринол":
+            if not creater:
+                name = row["ScientistName"]
+                creater = True
+            print(f"{row['ScientistName']} - {row['date']}")
+    print(f"OРИГИНАЛЬНЫЙ РЕЦЕПТ ПРИНАДЛЕЖИТ", f"{row['ScientistName']}")
+
+
+
+
+with open("scientist.org.txt", "w", encoding="utf-8", newline="") as file:
+    writer = csv.DictWriter(file,fieldnames=["ScientistName", "preparation", "date", "components"])
+    writer.writeheader()
+    writer.writerows(scientist)
