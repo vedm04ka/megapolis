@@ -1,0 +1,21 @@
+import random, csv, string
+
+
+
+with (open ("scientist.txt", encoding="utf-8") as file):
+    reader = list(csv.DictReader(file, delimiter="#"))
+    alf_dla_parol= "1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
+    #create_password = string.ascii_letters + string.digits
+    for row in reader:
+        scientist_name = row["ScientistName"].split()
+        row["login"] = f'{scientist_name[0]}_{scientist_name[1][0]}{scientist_name[2][0]}'
+        parol = ''
+        for i in range(10):
+            parol += random.choice(alf_dla_parol)
+
+        row["parol"] = parol
+
+with open("scientist_password.csv", "w", encoding="utf-8", newline="") as file:
+    writer = csv.DictWriter(file,fieldnames=["login","parol", "ScientistName", "preparation", "date", "components"])
+    writer.writeheader()
+    writer.writerows(reader)
