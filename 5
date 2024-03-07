@@ -1,0 +1,19 @@
+import random, csv
+
+
+with open ("scientist.txt", encoding="utf-8") as file:
+    reader = list(csv.DictReader(file, delimiter="#"))
+    tabl = [x for x in range(0,1024)]
+    random.shuffle(tabl)
+    for chelik in range(len(reader)):
+        hashi = 0
+        for sim in reader[chelik]['ScientistName']:
+            hashi += tabl[ord(sim) % 1024]
+       # reader[chelik]['hash'] = str(hashi)
+            reader[chelik] = {'hash': hashi % 2048, 'ScientistName': reader[chelik]['ScientistName'], 'preparation': reader[chelik]['preparation'], 'date': reader[chelik]['date'], 'components': reader[chelik]['components']}
+
+
+with open("scientist_with_hash.csv", "w", encoding="utf-8", newline="") as file:
+    writer = csv.DictWriter(file,fieldnames=["ScientistName", "preparation", "date", "components","hash"])
+    writer.writeheader()
+    writer.writerows(reader)
