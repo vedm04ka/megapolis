@@ -1,7 +1,7 @@
 import csv
 
 
-with (open ("scientist.txt", encoding="utf-8") as file):
+with open ("scientist.txt", encoding="utf-8") as file:
     reader = list(csv.DictReader(file, delimiter="#"))
     reader = sorted(reader, key = lambda x: x["date"])
     scientist = []
